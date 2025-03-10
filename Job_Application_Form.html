@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Form</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url(image1.png) no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: auto;
+        }
+
+        .form-container {
+            background: rgba(180, 231, 238, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(140, 171, 69, 0.2);
+            width: 500px;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group input[type="radio"],
+        .form-group input[type="checkbox"] {
+            margin-right: 20px;
+        }
+
+        .form-group .checkbox-group,
+        .form-group .radio-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Job Application Form</h2>
+        <form id="applicationForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Enter your name">
+                <div class="error" id="nameError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="example123@gmail.com">
+                <div class="error" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Gender</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="gender" value="Male"> Male</label>
+                    <label><input type="radio" name="gender" value="Female"> Female</label>
+                    <label><input type="radio" name="gender" value="Other"> Other</label>
+                </div>
+                <div class="error" id="genderError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="qualification">Qualification</label>
+                <select id="qualification">
+                    <option value="">Select Qualification</option>
+                    <option value="High School">High School</option>
+                    <option value="Bachelor's">Bachelor's degree</option>
+                    <option value="Master's">Master's degree</option>
+                    <option value="PhD">PhD</option>
+                </select>
+                <div class="error" id="qualificationError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="Enter your phone number">
+                <div class="error" id="phoneError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <textarea id="address" placeholder="Enter your address"></textarea>
+                <div class="error" id="addressError"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Area of Interest</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="interest" value="Web Designing"> Web Designing</label>
+                    <label><input type="checkbox" name="interest" value="Cyber Security"> Cyber Security</label>
+                    <label><input type="checkbox" name="interest" value="Data Science"> Data Science</label>
+                    <label><input type="checkbox" name="interest" value="AI"> Generative AI Modeling</label>
+                    <label><input type="checkbox" name="interest" value="Other"> Other</label>
+                </div>
+                <div class="error" id="interestError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="specification">Area of Specification</label>
+                <input type="text" id="specification" placeholder="Enter your area of specification">
+                <div class="error" id="specificationError"></div>
+            </div>
+
+            <button type="button" onclick="validateForm()">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            let isValid = true;
+
+            // Reset error messages
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+            // Validate Name
+            const name = document.getElementById('name').value.trim();
+            if (!name) {
+                document.getElementById('nameError').textContent = 'Name is required';
+                isValid = false;
+            }
+
+            // Validate Email (Text type)
+            const email = document.getElementById('email').value.trim();
+            const emailRegex = /^[a-zA-Z]+[0-9]*@gmail\.com$/;
+
+            if (!email) {
+                document.getElementById('emailError').textContent = 'Email is required';
+                isValid = false;
+            } else if (!emailRegex.test(email)) {
+                document.getElementById('emailError').textContent = 'Email must start with letters, optionally include numbers, and end with @gmail.com';
+                isValid = false;
+            }
+
+            // Validate Gender
+            const gender = document.querySelector('input[name="gender"]:checked');
+            if (!gender) {
+                document.getElementById('genderError').textContent = 'Gender is required';
+                isValid = false;
+            }
+
+            // Validate Qualification
+            const qualification = document.getElementById('qualification').value;
+            if (!qualification) {
+                document.getElementById('qualificationError').textContent = 'Qualification is required';
+                isValid = false;
+            }
+
+            //Validate Phone Number
+            const phone = document.getElementById('phone').value.trim();
+            const phoneRegex = /^[6-9]\d{9}$/;
+            if (!phone) {
+                document.getElementById('phoneError').textContent = 'Phone number is required';
+                isValid = false;
+            } else if (!phoneRegex.test(phone)) {
+                document.getElementById('phoneError').textContent = 'Enter a valid 10-digit phone number starting with 6-9';
+                isValid = false;
+            }
+
+            // Validate Address
+            const address = document.getElementById('address').value.trim();
+            if (!address) {
+                document.getElementById('addressError').textContent = 'Address is required';
+                isValid = false;
+            }
+
+            // Validate Area of Interest
+            const interest = document.querySelectorAll('input[name="interest"]:checked');
+            if (interest.length === 0) {
+                document.getElementById('interestError').textContent = 'At least one interest must be selected';
+                isValid = false;
+            }
+
+            // Validate Area of Specification
+            const specification = document.getElementById('specification').value.trim();
+            if (!specification) {
+                document.getElementById('specificationError').textContent = 'Area of specification is required';
+                isValid = false;
+            }
+
+            if (isValid) {
+                alert('Form submitted successfully!');
+            }
+        }
+    </script>
+</body>
+</html>

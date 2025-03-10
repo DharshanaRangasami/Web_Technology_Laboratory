@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url(image1.png) no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+            margin: 20px;
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        button {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>GPA Calculator</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Grade</th>
+                <th>Credit</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="subjectTable">
+        </tbody>
+    </table>
+    <button onclick="addRow()">Add Subject</button>
+    <button onclick="calculateGPA()">Calculate GPA</button>
+    <h3 id="result">GPA: -</h3>
+
+    <script>
+        function addRow() {
+            let table = document.getElementById("subjectTable");
+            let row = table.insertRow();
+            row.innerHTML = `
+                <td><input type="text" placeholder="Subject"></td>
+                <td>
+                    <select>
+                        <option value="10">O</option>
+                        <option value="9">A+</option>
+                        <option value="8">A</option>
+                        <option value="7">B+</option>
+                        <option value="6">B</option>
+                        <option value="5">C</option>
+                    </select>
+                </td>
+                <td><input type="number" min="1" max="4" value="3"></td>
+                <td><button onclick="deleteRow(this)">Remove</button></td>
+            `;
+        }
+
+        function deleteRow(btn) {
+            let row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        function calculateGPA() {
+            let table = document.getElementById("subjectTable");
+            let rows = table.getElementsByTagName("tr");
+            let totalCredits = 0, totalPoints = 0;
+
+            for (let row of rows) {
+                let grade = parseFloat(row.cells[1].getElementsByTagName("select")[0].value);
+                let credit = parseFloat(row.cells[2].getElementsByTagName("input")[0].value);
+                totalPoints += grade * credit;
+                totalCredits += credit;
+            }
+
+            let gpa = totalCredits ? (totalPoints / totalCredits).toFixed(2) : "-";
+            document.getElementById("result").innerText = "GPA: " + gpa;
+        }
+    </script>
+</body>
+</html>
